@@ -1,6 +1,21 @@
 const app = require("express")();
-const server = require("http").createServer(app);
+//const server = require("http").createServer(app);
 const cors = require("cors");
+
+const fs = require('fs');
+const path = require('path')
+
+
+var https = require('https');
+var options = {
+  key: fs.readFileSync('./cert/servicerobotpro/privkey.pem'),
+  cert: fs.readFileSync('./cert/servicerobotpro/cert.pem')
+};
+var server = https.createServer(options, app);
+
+// const privateKey = fs.readFileSync(path.resolve(__dirname,'./cert/servicerobotpro/privkey.pem'));
+// const certificate = fs.readFileSync(path.resolve(__dirname,'./cert/servicerobotpro/cert.pem'));
+// const ca = fs.readFileSync(path.resolve(__dirname,'./cert/servicerobotpro/chain.pem'));
 
 const io = require("socket.io")(server, {
   cors: {
